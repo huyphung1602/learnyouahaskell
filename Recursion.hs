@@ -57,3 +57,44 @@ quickSort (x:xs) =
   let smallerSorted = quickSort [a | a <- xs, a <= x]
       biggerSorted = quickSort [a | a <- xs, a > x]
   in smallerSorted ++ [x] ++ biggerSorted
+
+
+-- Merge Sort
+-- Test Data: [123,45,678,98,34,56,89,324,23,567,8,7,1]
+
+-- define merge
+merge :: (Ord a) => [a] -> [a] -> [a]
+merge xs [] = xs
+merge [] xs = xs
+merge (x:xs) (y:ys)
+  | x <= y = x:merge xs (y:ys)
+  | otherwise = y:merge (x:xs) ys
+
+-- Top down Version (for clarity, not for efficiency)
+mergeSort :: (Ord a) => [a] -> [a]
+mergeSort [] = []
+mergeSort [a] = [a]
+mergeSort xs = merge (mergeSort (firstHalf xs)) (mergeSort (secondHalf xs))
+
+firstHalf  xs = let { n = length xs } in take (div n 2) xs
+secondHalf xs = let { n = length xs } in drop (div n 2) xs
+
+
+-- Bottom up Version
+msort :: (Ord a) => [a] -> [a]
+msort [] = []
+msort xs = go [[x] | x <- xs]
+  where
+    go [a] = a
+    go xs = go (pairs xs)
+    pairs (a:b:t) = merge a b : t
+    pairs t = t
+
+-- Create a flat function that use for 2 dimension list
+flatOne :: [[a]] -> [[a]]
+flatOne (a:b:t) = (a ++ b) : t
+flatOne t = t
+
+flat :: [[a]] -> [a]
+flat [x] = x
+flat xs = flat (flatOne xs)
