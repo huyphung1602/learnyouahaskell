@@ -21,11 +21,11 @@
 --   rs <- sequence [getLine, getLine, getLine]  
 --   print rs
 
--- import Control.Monad (forever)
--- import Data.Char (toUpper)
+import Control.Monad (forever)
+import Data.Char (toUpper)
 
--- main :: IO b
--- main = forever $ do
---   putStr "Give me some input: "
---   l <- getLine
---   putStrLn $ map toUpper l
+main :: IO b
+main = forever $ do
+  putStr "Give me some input: "
+  l <- getLine
+  putStrLn $ map toUpper l
